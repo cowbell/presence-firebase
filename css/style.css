@@ -1,0 +1,30 @@
+.gravatar {
+    border: 10px solid #eee;
+}
+
+.gravatar.online {
+    border-color: #c7e6c7;
+}
+
+.footer {
+    margin-top: 15px;
+}
+
+.icon {
+    padding: 0;
+    margin: 0;
+    color: black;
+}
+
+.icon:hover {
+    text-decoration: none;
+    color: #333;
+}
+
+.icon-white {
+    color: white;
+}
+
+.icon-white:hover {
+    color: #eee;
+}

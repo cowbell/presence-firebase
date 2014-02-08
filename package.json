@@ -1,0 +1,16 @@
+{
+  "name": "presence",
+  "version": "0.0.1",
+  "description": "See who's in the office",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Cowbell Labs",
+  "license": "MIT",
+  "engines": {
+    "node": "~0.10.0"
+  },
+  "devDependencies": {
+    "firebase-token-generator": "~0.1.4"
+  }
+}
