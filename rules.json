@@ -1,0 +1,13 @@
+{
+  "rules": {
+    ".write": "auth != null",
+    ".read": true,
+    "presence": {
+      "online_since": {
+        "$macAddress": {
+          ".validate": "!data.exists() || (now - root.child('/presence/offline_since').child($macAddress).val()) > (2 * 60 * 1000)"
+        }
+      }
+    }
+  }
+}
