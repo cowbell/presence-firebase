@@ -36,7 +36,7 @@
 
   <script type="text/x-handlebars" data-template-name="user">
     <div class="pull-left">
-      <img {{bind-attr class=":img-circle :media-object :gravatar isOnline:online:offline" src="user.avatarUrl" alt="user.email"}}>
+      <img {{bind-attr class=":img-circle :media-object :gravatar user.isOnline:online:offline" src="user.avatarUrl" alt="user.email"}}>
     </div>
     <div class="media-body">
       <h4 class="media-heading">{{user.name}}</h4>
