@@ -5,6 +5,7 @@ App.User = Ember.Object.extend({
     email: null,
     macsOfflineSince: null,
     macsOnlineSince: null,
+    offset: 0,
 
     init: function () {
         this.set('macsOfflineSince', []);
@@ -22,11 +23,12 @@ App.User = Ember.Object.extend({
 
     isOnline: function () {
         var currentTime = new Date().getTime(),
+            offset = this.get('offset'),
             threshold = 2 * 60 * 1000, // 2 minutes
             macsOnline;
 
         macsOnline = this.get('macsOfflineSince').filter(function (mac) {
-            return mac.get('timestamp') > currentTime - threshold;
+            return mac.get('timestamp') > currentTime + offset - threshold;
         });
 
         return !!macsOnline.length;
@@ -52,6 +54,25 @@ App.Mac = Ember.Object.extend({
     timestamp: null
 });
 
+// Fetch Firebase server time offset
+App.IndexRoute = Ember.Route.extend({
+    model: function () {
+        return new Ember.RSVP.Promise(function (resolve, reject) {
+            rootRef = new Firebase('https://sizzling-fire-9586.firebaseio.com');
+            offsetRef = rootRef.child('.info/serverTimeOffset');
+            offsetRef.on("value", function (snap) {
+              var offset = snap.val();
+              resolve(offset);
+            });
+        });
+    },
+
+    setupController: function (controller, model) {
+        controller.set('offset', model);
+    }
+});
+
+
 App.IndexController = Ember.ArrayController.extend({
     model: [],
 
@@ -66,8 +87,10 @@ App.IndexController = Ember.ArrayController.extend({
 
         usersRef.on('child_added', function (snap) {
             var data = snap.val(),
-                user = App.User.create(data);
+                user;
 
+            data.offset = self.get('offset');
+            user = App.User.create(data);
             self.get('model').pushObject(user);
         });
 
@@ -159,7 +182,7 @@ App.IndexController = Ember.ArrayController.extend({
             self.get('model').forEach(function (user) {
                 user.notifyPropertyChange('macsOfflineSince');
             });
-        }, 1000);
+        }, 10000);
     },
 
     findByAddress: function (addr) {
