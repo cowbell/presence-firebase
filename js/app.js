@@ -1,5 +1,7 @@
 App = Ember.Application.create();
 
+App.FIREBASE_URL = 'https://sizzling-fire-9586.firebaseio.com';
+
 App.User = Ember.Object.extend({
     name: null,
     email: null,
@@ -57,33 +59,53 @@ App.Mac = Ember.Object.extend({
 // Fetch Firebase server time offset
 App.IndexRoute = Ember.Route.extend({
     model: function () {
-        return new Ember.RSVP.Promise(function (resolve, reject) {
-            rootRef = new Firebase('https://sizzling-fire-9586.firebaseio.com');
-            offsetRef = rootRef.child('.info/serverTimeOffset');
-            offsetRef.on("value", function (snap) {
-              var offset = snap.val();
-              resolve(offset);
+        var rootRef = new Firebase(App.FIREBASE_URL);
+
+        var usersPromise = new Ember.RSVP.Promise(function (resolve, reject) {
+            var ref = rootRef.child('users');
+            ref.on('value', function (snap) {
+                var users = snap.val();
+
+                resolve(users.map(function (attrs) {
+                    return App.User.create(attrs);
+                }));
             });
+        });
+
+        var offsetPromise = new Ember.RSVP.Promise(function (resolve, reject) {
+            ref = rootRef.child('.info/serverTimeOffset');
+            ref.on('value', function (snap) {
+                var offset = snap.val();
+                resolve(offset);
+            });
+        });
+
+        return Ember.RSVP.hash({
+            users: usersPromise,
+            offset: offsetPromise
         });
     },
 
-    setupController: function (controller, model) {
-        controller.set('offset', model);
+    setupController: function (controller, models) {
+        controller.set('content', models.users);
+        controller.set('offset', models.offset);
     }
 });
 
 
 App.IndexController = Ember.ArrayController.extend({
-    model: [],
-
     init: function () {
         this._super();
 
         var self = this,
-            rootRef = new Firebase('https://sizzling-fire-9586.firebaseio.com'),
+            rootRef = new Firebase(App.FIREBASE_URL),
             usersRef = rootRef.child('users'),
             macsOfflineSinceRef = rootRef.child('presence/offline_since'),
             macsOnlineSinceRef = rootRef.child('presence/online_since');
+
+        this.forEach(function (user) {
+            user.set('offset', self.get('offset'));
+        });
 
         usersRef.on('child_added', function (snap) {
             var data = snap.val(),
@@ -91,19 +113,19 @@ App.IndexController = Ember.ArrayController.extend({
 
             data.offset = self.get('offset');
             user = App.User.create(data);
-            self.get('model').pushObject(user);
+            self.pushObject(user);
         });
 
         usersRef.on('child_removed', function (snap) {
             var data = snap.val();
                 user = self.findProperty('email', data.email);
 
-            self.get('model').removeObject(user);
+            self.removeObject(user);
         });
 
         usersRef.on('child_changed', function (snap) {
             var data = snap.val();
-                user = self.get('model').findProperty('email', data.email);
+                user = self.findProperty('email', data.email);
 
             user.setProperties(data);
         });
@@ -179,14 +201,14 @@ App.IndexController = Ember.ArrayController.extend({
         });
 
         setInterval(function () {
-            self.get('model').forEach(function (user) {
+            self.forEach(function (user) {
                 user.notifyPropertyChange('macsOfflineSince');
             });
         }, 10000);
     },
 
     findByAddress: function (addr) {
-        return this.get('model').find(function (user) {
+        return this.find(function (user) {
             var addresses = user.get('addresses');
             if (addresses.indexOf(addr) > -1) { return true; }
         });
