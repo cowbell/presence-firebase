@@ -218,6 +218,7 @@ App.IndexController = Ember.ArrayController.extend({
 
 App.UserView = Ember.View.extend({
     templateName: 'user',
+    classNames: ['media'],
 
     status: function () {
         return this.get('model.isOnline')  ? "online" : "offline";

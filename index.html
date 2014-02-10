@@ -35,28 +35,26 @@
   </script>
 
   <script type="text/x-handlebars" data-template-name="user">
-    <div class="media">
-      <div class="pull-left">
-        <img {{bind-attr class=":img-circle :media-object :gravatar isOnline:online:offline" src="user.avatarUrl" alt="user.email"}}>
-      </div>
-      <div class="media-body">
-        <h4 class="media-heading">{{user.name}}</h4>
-        {{#if user.isOnline}}
-          {{#if user.onlineSince}}
-            <h5 class="text-muted">Online since {{time user.onlineSince}}</h5>
-          {{else}}
-            <h5 class="text-muted">&nbsp;</h5>
-          {{/if}}
+    <div class="pull-left">
+      <img {{bind-attr class=":img-circle :media-object :gravatar isOnline:online:offline" src="user.avatarUrl" alt="user.email"}}>
+    </div>
+    <div class="media-body">
+      <h4 class="media-heading">{{user.name}}</h4>
+      {{#if user.isOnline}}
+        {{#if user.onlineSince}}
+          <h5 class="text-muted">Online since {{time user.onlineSince}}</h5>
         {{else}}
-          {{#if user.offlineSince}}
-            <h5 class="text-muted">Last online at {{time user.offlineSince}}</h5>
-          {{else}}
-            <h5 class="text-muted">&nbsp;</h5>
-          {{/if}}
+          <h5 class="text-muted">&nbsp;</h5>
         {{/if}}
-        <hr style="margin:8px auto">
-        <span {{bind-attr class=":label user.isOnline:label-success:label-default"}}>{{view.status}}</span>
-      </div>
+      {{else}}
+        {{#if user.offlineSince}}
+          <h5 class="text-muted">Last online at {{time user.offlineSince}}</h5>
+        {{else}}
+          <h5 class="text-muted">&nbsp;</h5>
+        {{/if}}
+      {{/if}}
+      <hr style="margin:8px auto">
+      <span {{bind-attr class=":label user.isOnline:label-success:label-default"}}>{{view.status}}</span>
     </div>
   </script>
 
