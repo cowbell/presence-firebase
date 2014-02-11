@@ -58,7 +58,7 @@ module.exports = function (grunt) {
       dist: {
         files: {
           'dist/js/app.js': 'js/app.js',
-          'dist/scan_macs.sh': 'scan_macs.sh'
+          'scan_macs_dist.sh': 'scan_macs.sh'
         },
 
         options: {
