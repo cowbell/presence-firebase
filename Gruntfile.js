@@ -6,6 +6,8 @@ module.exports = function (grunt) {
   require('load-grunt-tasks')(grunt);
 
   grunt.config.init({
+
+    // Asks about stuff
     prompt: {
       target: {
         options: {
@@ -41,19 +43,7 @@ module.exports = function (grunt) {
       }
     },
 
-    // Setups configuration for 'build' task
-    config: {
-      dist: {
-        options: {
-          variables: {
-            environment: 'development',
-            origin: 'http://localhost:9000'
-          }
-        }
-      }
-    },
-
-    // Replaces code in files
+    // Replaces code in files and moves them around
     'string-replace': {
       dist: {
         files: {
