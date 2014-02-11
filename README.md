@@ -25,3 +25,6 @@
 6. Open `dist/index.html` file in your favorite browser and you're done!
 
 The configuration is saved into `config.json` file. You can change your database URL or authentication token there and then run `grunt build` to regenerate the app using the new configuration.
+
+### Deployment
+It doesn't need any server - once you generate the app you can simply open `dist/index.html` file in your browser and it will work. However, you probably want to host it somewhere, so that it's available for others too. You can use e.g. [GitHub Pages](http://pages.github.com/) for that. Just fork this repo, run `grunt setup`, copy contents of generated `dist` folder to `gh-pages` branch and push it to GitHub.
