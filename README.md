@@ -4,12 +4,12 @@
 
 ### Setup
 1. Setup Firebase:
-    1. [Sign up](https://www.firebase.com) for a Firebase account and create a database.
+    1. [Sign up](https://www.firebase.com) for a free Firebase account and create a database.
     2. Go to "Security Rules" tab, click "Load Rules" button and select `rules.json` file.
     3. Go to "Data" tab and add users. You can check required schema in `users.json` file. You can add them by hand or modify `users.json` file and import it by clicking "Import JSON" button.
     4. Take note of your database URL and its secret, which can be found in "Secrets" tab.
 3. Run `npm install` to install all dependencies.
-4. Run `grunt setup` - this will ask you a for Firebase URL and its secret and generate the app into `dist` folder.
+4. Run `grunt setup` - this will ask you for your Firebase URL and its secret and generate the app into `dist` folder.
 5. Setup scanning script on your server:
     1. Copy generated `scan_macs_dist.sh` file to your server:
 
