@@ -1,6 +1,6 @@
 App = Ember.Application.create();
 
-App.FIREBASE_URL = 'https://sizzling-fire-9586.firebaseio.com';
+App.FIREBASE_URL = '<!-- @config firebase_url -->';
 
 App.User = Ember.Object.extend({
     name: null,

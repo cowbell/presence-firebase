@@ -1,6 +1,6 @@
 {
-  "name": "presence",
-  "version": "0.0.1",
+  "name": "presence-firebase",
+  "version": "1.0.0",
   "description": "See who's in the office",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,6 +11,13 @@
     "node": "~0.10.0"
   },
   "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-cli": "~0.1.9",
+    "load-grunt-tasks": "~0.2.1",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-copy": "~0.5.0",
+    "grunt-string-replace": "~0.2.7",
+    "grunt-prompt": "~1.0.0",
     "firebase-token-generator": "~0.1.4"
   }
 }

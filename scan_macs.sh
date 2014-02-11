@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-FIREBASE_URL="your-firebase-url"
-FIREBASE_AUTH_TOKEN="your-firebase-auth-token"
+FIREBASE_URL="<!-- @config firebase_url -->"
+FIREBASE_AUTH_TOKEN="<!-- @config firebase_auth_token -->"
 
 scan() {
   echo -n "Scanning... "
