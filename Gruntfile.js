@@ -28,6 +28,10 @@ module.exports = function (grunt) {
             validate: function (value) {
               return value.trim() === "" ? "It can't be blank" : true;
             }
+          }, {
+            config: 'custom_domain',
+            type: 'input',
+            message: 'Custom domain (optional)'
           }]
         }
       }
@@ -97,7 +101,8 @@ module.exports = function (grunt) {
   grunt.registerTask('generate-config-file', 'Generate config.json file', function () {
     var config = {
       firebase_url: grunt.config.get('firebase_url'),
-      firebase_auth_token: grunt.config.get('firebase_auth_token')
+      firebase_auth_token: grunt.config.get('firebase_auth_token'),
+      custom_domain: grunt.config.get('custom_domain')
     };
 
     grunt.file.write('config.json', JSON.stringify(config, null, '\t'));
@@ -107,11 +112,24 @@ module.exports = function (grunt) {
     var config = grunt.file.readJSON('config.json');
     grunt.config.set('firebase_url', config.firebase_url);
     grunt.config.set('firebase_auth_token', config.firebase_auth_token);
+    grunt.config.set('custom_domain', config.custom_domain);
+  });
+
+  grunt.registerTask('generate-cname-file', 'Generate CNAME file (for GitHub Pages)', function () {
+    var domain = grunt.config.get('custom_domain');
+
+    if (domain) {
+      grunt.file.write('dist/CNAME', domain);
+      grunt.log.ok('Generated dist/CNAME file with "' + domain + '" domain.');
+    } else {
+      grunt.log.ok('Couldn\'t find "custom_domain" configuration - skipping generation of dist/CNAME file.');
+    }
   });
 
   grunt.registerTask('build', [
     'clean',
     'read-config-file',
+    'generate-cname-file',
     'string-replace',
     'copy'
   ]);
