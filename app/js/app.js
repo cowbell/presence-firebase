@@ -20,7 +20,7 @@ App.User = Ember.Object.extend({
         var email = this.get('email'),
             path = this.MD5(email.trim().toLowerCase()) + '.jpg?s=80';
 
-        return 'http://www.gravatar.com/avatar/' + path;
+        return 'https://www.gravatar.com/avatar/' + path;
     }.property('email'),
 
     isOnline: function () {
