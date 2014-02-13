@@ -83,7 +83,9 @@ module.exports = function (grunt) {
     build_gh_pages: {
       gh_pages: {
         options: {
-          pull: false
+          pull: false,
+          exclude: ['config.json'],
+          cname: '<%= grunt.config.get("custom_domain") %>'
         }
       }
     }
@@ -115,21 +117,9 @@ module.exports = function (grunt) {
     grunt.config.set('custom_domain', config.custom_domain);
   });
 
-  grunt.registerTask('generate-cname-file', 'Generate CNAME file (for GitHub Pages)', function () {
-    var domain = grunt.config.get('custom_domain');
-
-    if (domain) {
-      grunt.file.write('dist/CNAME', domain);
-      grunt.log.ok('Generated dist/CNAME file with "' + domain + '" domain.');
-    } else {
-      grunt.log.ok('Couldn\'t find "custom_domain" configuration - skipping generation of dist/CNAME file.');
-    }
-  });
-
   grunt.registerTask('build', [
     'clean',
     'read-config-file',
-    'generate-cname-file',
     'string-replace',
     'copy'
   ]);
