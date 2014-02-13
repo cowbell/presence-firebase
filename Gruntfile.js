@@ -47,7 +47,7 @@ module.exports = function (grunt) {
     'string-replace': {
       dist: {
         files: {
-          'dist/js/app.js': 'js/app.js',
+          'dist/js/app.js': 'app/js/app.js',
           'scan_macs_dist.sh': 'scan_macs.sh'
         },
 
@@ -67,14 +67,20 @@ module.exports = function (grunt) {
       dist: {
         files: [{
           expand: true,
+          cwd: 'app',
           dest: 'dist',
           src: [
             'css/**/*',
-            'index.html',
-            'rules.json',
-            'users.json'
-          ]
+            'index.html'          ]
         }]
+      }
+    },
+
+    build_gh_pages: {
+      gh_pages: {
+        options: {
+          pull: false
+        }
       }
     }
   });
@@ -115,6 +121,11 @@ module.exports = function (grunt) {
     'generate-firebase-auth-token',
     'generate-config-file',
     'build'
+  ]);
+
+  grunt.registerTask('deploy', [
+    'build',
+    'build_gh_pages'
   ]);
 
   grunt.registerTask('default', [
