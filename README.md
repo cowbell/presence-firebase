@@ -1,5 +1,7 @@
 ## Presence
 
+This app allows you to see who's currently in your office, flat etc. It works by looking for MAC addresses of devices connected to your router and sends this info to [Firebase](https://www.firebase.com/) every few minutes. The web app connects to Firebase and displays up-to-date presence information.
+
 ![screenshot](https://www.evernote.com/shard/s17/sh/e74d3ddd-63db-498b-9341-0db532cff488/08bc91fe7edf8b24d65fa5379819d792/deep/0/Presence.png "Screenshot")
 
 ### Setup
