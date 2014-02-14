@@ -34,3 +34,6 @@ The configuration is saved into `config.json` file. You can change your database
 The web app doesn't need any server - once you generate it you can simply open `dist/index.html` file in your browser and it will work. 
 
 However, you'll probably want to host it somewhere, so that it's available for others too. You can use e.g. [GitHub Pages](http://pages.github.com/) for that. To do it, fork this repo and run `grunt setup deploy`. You can also host it on a custom domain - just provide `custom_domain` during `setup` task.
+
+### License
+Presence is released under the [MIT License](http://opensource.org/licenses/MIT).
