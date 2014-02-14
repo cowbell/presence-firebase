@@ -48,6 +48,6 @@ else
   ( IFS=$'\n'; echo "${macs[*]}" )
   echo ""
 
-  update_offline_since
   update_online_since
+  update_offline_since
 fi

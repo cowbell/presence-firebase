@@ -37,12 +37,12 @@ App.User = Ember.Object.extend({
     }.property('macsOfflineSince', 'macsOfflineSince.@each.timestamp'),
 
     offlineSince: function () {
-        var mac = this.get('macsOfflineSince').sortBy('timestamp')[0];
+        var mac = this.get('macsOfflineSince').sortBy('timestamp').get('lastObject');
         if (mac) { return mac.get('timestamp'); }
     }.property('macsOfflineSince', 'macsOfflineSince.@each.timestamp'),
 
     onlineSince: function () {
-        var mac = this.get('macsOnlineSince').sortBy('timestamp')[0];
+        var mac = this.get('macsOnlineSince').sortBy('timestamp').get('lastObject');
         if (mac) { return mac.get('timestamp'); }
     }.property('macsOnlineSince', 'macsOnlineSince.@each.timestamp'),
 
