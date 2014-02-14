@@ -15,15 +15,15 @@ This app allows you to see who's currently in your office, flat etc. It works by
 5. Setup scanning script on your server:
     1. Copy generated `scan_macs_dist.sh` file to your server:
 
-    `scp scan_macs_dist.sh your-server:/usr/local/bin/scan_macs.sh`
+        `scp scan_macs_dist.sh your-server:/usr/local/bin/scan_macs.sh`
 
     2. SSH to your server and change owner of the script:
 
-    `sudo chown root:root scan_macs.sh`
+        `sudo chown root:root scan_macs.sh`
 
     3. Setup cron by running `sudo crontab -e`. It should be ok to run the script every minute:
 
-    `* * * * * /usr/local/bin/scan_macs.sh`
+        `* * * * * /usr/local/bin/scan_macs.sh`
     
     **NOTE: The bash script uses `curl` and `nmap` commands, so make sure you've got them installed on your server.**
 6. Open `dist/index.html` file in your favorite browser and you're done!
