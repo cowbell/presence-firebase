@@ -8,17 +8,21 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <div class="container">
+    <div id="app"></div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <p class="text-center text-muted">
+        &copy; 2014 <a href="https://cowbell-labs.com">Cowbell Labs</a>.
+        View source on <a href="https://github.com/cowbell/presence-firebase">GitHub</a>.
+      </p>
+    </div>
+  </footer>
+
   <script type="text/x-handlebars">
     {{outlet}}
-
-    <footer class="footer">
-      <div class="container">
-        <p class="text-center text-muted">
-          &copy; 2014 <a href="http://cowbell-labs.com">Cowbell Labs</a>.
-          View source on <a href="https://github.com/cowbell/presence-firebase">GitHub</a>.
-        </p>
-      </div>
-    </footer>
   </script>
 
   <script type="text/x-handlebars" data-template-name="index">
@@ -55,6 +59,12 @@
       {{/if}}
       <hr style="margin:8px auto">
       <span {{bind-attr class=":label user.isOnline:label-success:label-default"}}>{{view.status}}</span>
+    </div>
+  </script>
+
+  <script type="text/x-handlebars" data-template-name="loading">
+    <div class="container">
+      <p class="text-center">Loading...</p>
     </div>
   </script>
 
