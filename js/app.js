@@ -1,4 +1,6 @@
-App = Ember.Application.create();
+App = Ember.Application.create({
+    rootElement: "#app"
+});
 
 App.FIREBASE_URL = 'https://sizzling-fire-9586.firebaseio.com';
 
