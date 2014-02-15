@@ -26,14 +26,11 @@
   </script>
 
   <script type="text/x-handlebars" data-template-name="index">
-    <div class="container">
-      <br>
-      <div class="row">
-        <div class="col-md-4 col-md-offset-4">
-          {{#each user in model}}
-             {{view App.UserView modelBinding="user"}}
-          {{/each}}
-        </div>
+    <div class="row">
+      <div class="col-md-4 col-md-offset-4">
+        {{#each user in model}}
+           {{view App.UserView modelBinding="user"}}
+        {{/each}}
       </div>
     </div>
   </script>
@@ -63,16 +60,14 @@
   </script>
 
   <script type="text/x-handlebars" data-template-name="loading">
-    <div class="container">
-      <p class="text-center">Loading...</p>
-    </div>
+    <p class="text-center">Loading...</p>
   </script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.3.0/handlebars.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/ember.js/1.3.1/ember.prod.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ember.js/1.4.0/ember.prod.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>
-  <script src='https://cdn.firebase.com/js/client/1.0.3/firebase.js'></script>
+  <script src="https://cdn.firebase.com/js/client/1.0.3/firebase.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
