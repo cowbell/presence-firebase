@@ -29,6 +29,10 @@
     color: #eee;
 }
 
+.media-body {
+    padding: 5px;
+}
+
 html,
 body {
   height: 100%;
