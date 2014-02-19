@@ -24,21 +24,6 @@ update_offline_since() {
   echo -e "done."
 }
 
-send_online_since() {
-  local json="{\"$1\":{\".sv\": \"timestamp\"}}"
-  curl -X PATCH -d "$json" $FIREBASE_URL/presence/online_since.json?auth=$FIREBASE_AUTH_TOKEN > /dev/null 2>&1
-}
-
-export -f send_online_since
-export FIREBASE_AUTH_TOKEN
-export FIREBASE_URL
-
-update_online_since() {
-  echo -n "Pushing \"online_since\" data to Firebase... "
-  ( IFS=$'\n'; echo "${macs[*]}" ) | xargs -n1 -P10 -I{} bash -c "send_online_since {}"
-  echo -e "done."
-}
-
 scan
 
 if [ ${#macs[@]} -eq 0 ]; then
@@ -48,6 +33,5 @@ else
   ( IFS=$'\n'; echo "${macs[*]}" )
   echo ""
 
-  update_online_since
   update_offline_since
 fi
