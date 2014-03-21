@@ -68,7 +68,7 @@ App.IndexRoute = Ember.Route.extend({
         }).then(function(users){
           return Ember.ArrayController.create({
             content: users,
-            sortProperties: ['offlineSince'],
+            sortProperties: ['offlineSince', 'name'],
             sortAscending: false
           });
         });
