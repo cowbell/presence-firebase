@@ -65,6 +65,12 @@ App.IndexRoute = Ember.Route.extend({
                     return App.User.create(attrs);
                 }));
             });
+        }).then(function(users){
+          return Ember.ArrayController.create({
+            content: users,
+            sortProperties: ['offlineSince', 'name'],
+            sortAscending: false
+          });
         });
 
         var offsetPromise = new Ember.RSVP.Promise(function (resolve, reject) {
