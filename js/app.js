@@ -89,6 +89,9 @@ App.IndexRoute = Ember.Route.extend({
 
 
 App.IndexController = Ember.ArrayController.extend({
+    sortProperties: ['offlineSince', 'name'],
+    sortAscending: false,
+
     init: function () {
         this._super();
 
