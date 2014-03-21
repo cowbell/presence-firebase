@@ -27,7 +27,7 @@
   <script type="text/x-handlebars" data-template-name="index">
     <div class="row">
       <div class="col-md-4 col-md-offset-4">
-        {{#each user in model}}
+        {{#each user in this}}
            {{view App.UserView modelBinding="user"}}
         {{/each}}
       </div>
