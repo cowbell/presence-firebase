@@ -4,6 +4,19 @@ App = Ember.Application.create({
 
 App.FIREBASE_URL = '<!-- @config firebase_url -->';
 
+App.Heartbeat = Ember.Object.extend({
+    offset: 0,
+
+    isOnline: function () {
+        var currentTime = new Date().getTime(),
+            offset = this.get("offset"),
+            threshold = 2 * 60 * 1000, // 2 minutes
+            timestamp = this.get("timestamp");
+
+        return timestamp > currentTime + offset - threshold;
+    }.property("timestamp", "offset")
+});
+
 App.User = Ember.Object.extend({
     name: null,
     email: null,
@@ -56,6 +69,17 @@ App.IndexRoute = Ember.Route.extend({
     model: function () {
         var rootRef = new Firebase(App.FIREBASE_URL);
 
+        var heartbeatPromise = new Ember.RSVP.Promise(function (resolve, reject) {
+            var ref = rootRef.child("heartbeat");
+
+            ref.on("value", function (snap) {
+                var timestamp = snap.val(),
+                    heartbeat = App.Heartbeat.create({ timestamp: timestamp });
+
+                resolve(heartbeat);
+            });
+        });
+
         var usersPromise = new Ember.RSVP.Promise(function (resolve, reject) {
             var ref = rootRef.child('users');
             ref.on('value', function (snap) {
@@ -77,13 +101,15 @@ App.IndexRoute = Ember.Route.extend({
 
         return Ember.RSVP.hash({
             users: usersPromise,
-            offset: offsetPromise
+            offset: offsetPromise,
+            heartbeat: heartbeatPromise
         });
     },
 
     setupController: function (controller, models) {
         controller.set('content', models.users);
         controller.set('offset', models.offset);
+        controller.set("heartbeat", models.heartbeat);
     }
 });
 
@@ -92,16 +118,32 @@ App.IndexController = Ember.ArrayController.extend({
     sortProperties: ['offlineSince', 'name'],
     sortAscending: false,
 
+    offsetDidChange: function () {
+        var offset = this.get("offset"),
+            heartbeat = this.get("heartbeat");
+
+        if (heartbeat) {
+            heartbeat.set("offset", offset);
+        }
+
+        this.forEach(function (user) {
+            user.set("offset", offset);
+        });
+    }.observes("offset", "heartbeat"),
+
     init: function () {
         this._super();
 
         var self = this,
             rootRef = new Firebase(App.FIREBASE_URL),
             usersRef = rootRef.child('users'),
+            heartbeatRef = rootRef.child("heartbeat"),
             macsOfflineSinceRef = rootRef.child('presence/offline_since');
 
-        this.forEach(function (user) {
-            user.set('offset', self.get('offset'));
+        heartbeatRef.on("child_changed", function (snap) {
+            var data = snap.val();
+
+            self.set("heartbeat.timestamp", data);
         });
 
         usersRef.on('child_added', function (snap) {
@@ -114,14 +156,14 @@ App.IndexController = Ember.ArrayController.extend({
         });
 
         usersRef.on('child_removed', function (snap) {
-            var data = snap.val();
+            var data = snap.val(),
                 user = self.findProperty('email', data.email);
 
             self.removeObject(user);
         });
 
         usersRef.on('child_changed', function (snap) {
-            var data = snap.val();
+            var data = snap.val(),
                 user = self.findProperty('email', data.email);
 
             user.setProperties(data);

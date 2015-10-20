@@ -15,7 +15,7 @@
 
   <footer>
     <p class="text-center text-muted">
-      &copy; 2014 <a href="https://cowbell-labs.com">Cowbell Labs</a>.
+      &copy; 2015 <a href="https://cowbell-labs.com">Cowbell Labs</a>.
       View source on <a href="https://github.com/cowbell/presence-firebase">GitHub</a>.
     </p>
   </footer>
@@ -30,6 +30,15 @@
         {{#each user in this}}
            {{view App.UserView modelBinding="user"}}
         {{/each}}
+        <br>
+        <p class="text-center">
+          The office is
+          {{#if heartbeat.isOnline}}
+            <strong class="text-success">online</strong>.
+          {{else}}
+            <strong class="text-danger">offline</strong>.
+          {{/if}}
+        </p>
       </div>
     </div>
   </script>
